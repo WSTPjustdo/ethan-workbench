@@ -1,0 +1,52 @@
+import { defineConfig, loadEnv } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import path from 'path'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import viteCompression from 'vite-plugin-compression'
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd())
+
+  return {
+    plugins: [
+      vue(),
+      createSvgIconsPlugin({
+        iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
+        symbolId: 'icon-[dir]-[name]',
+      }),
+      (viteCompression as any)({
+        verbose: false,
+        disable: mode === 'development',
+        threshold: 10240,
+        algorithm: 'gzip',
+        ext: '.gz',
+      }),
+    ],
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'src'),
+        '~': path.resolve(__dirname, 'src'),
+      },
+    },
+    define: {
+      'process.env.VUE_APP_BASE_API': JSON.stringify(env.VITE_APP_BASE_API),
+    },
+    server: {
+      host: '127.0.0.1',
+      port: 5188,
+      strictPort: true,
+      proxy: {
+        '/api': {
+          target: env.VITE_PROXY_TARGET || 'http://127.0.0.1:6149',
+          changeOrigin: true,
+        },
+      },
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {},
+      },
+    },
+
+  }
+})

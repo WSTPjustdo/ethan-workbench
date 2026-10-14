@@ -1,0 +1,7 @@
+{
+  "name": "ethan-workbench-local-setup",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": { "configure": "node create-local-config.cjs" },
+  "dependencies": { "bcryptjs": "3.0.3" }
+}

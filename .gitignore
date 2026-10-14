@@ -1,0 +1,23 @@
+# Private runtime, generated credentials and local data
+.local-runtime/
+artifacts/
+**/node_modules/
+**/target/
+**/dist/
+**/logs/
+*.log
+*.pid
+**/.env.local
+**/.env.*.local
+**/application-local.yml
+**/login.json
+**/mysql-admin.ini
+**/set-login.sql
+*.pem
+*.key
+*.p12
+*.zip
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
